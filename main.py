@@ -1,5 +1,5 @@
 import datetime
-
+import os
 
 from PIL import Image, ImageDraw, ImageFont
 import yaml
@@ -7,11 +7,11 @@ import yaml
 from weekplanner.weekplanner import Event, Day
 from weekplanner.google import collect_agenda_data, get_timestamp_from_google
 from weekplanner.weather_api import get_weather_openmeteo, get_weather_icon
-from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L
+from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L, split_image
 
 #%% Open the configuration
 
-with open("config.yaml") as stream:
+with open("config.yaml", encoding="utf-8") as stream:
     try:
         config  = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -47,7 +47,7 @@ print(f'Found {len(events)} events')
 
 
 print(RESOLUTION)
-img = Image.new("1", RESOLUTION, 1)  # "1" = 1-bit pixels, 1 = white
+img = Image.new("RGB", RESOLUTION, (255,255,255))  # "1" = 1-bit pixels, 1 = white
 
 
 draw = ImageDraw.Draw(img)
@@ -55,8 +55,7 @@ draw = ImageDraw.Draw(img)
 
 # Draw something
 # General
-draw.rectangle((10, 10, 790, 460), outline=0)  # Outline
-# draw.line((10, 100, RESOLUTION[0] - 10, 100), fill=0) # Horizontal divider
+
 _ = draw_shaded_rectangle(draw, (10, 10, 790, 460))  # Outline
 
 
@@ -123,5 +122,11 @@ for _i, d in enumerate(week_list):
     d.draw(img, draw_obj=draw, idx=_i)
 
 print('Got to the end!')
+
+draw.line((10, 100, RESOLUTION[0] - 10, 100),fill=(255,0,0)) # Horizontal divider
+
+
 img.show()  # or save
-# img.save("display.bmp")
+img_red, img_black = split_image(img)
+img_black.save(os.path.join(config['display']['output_folder'],"display.bmp"))
+img_red.save(os.path.join(config['display']['output_folder'],"display_r.bmp"))

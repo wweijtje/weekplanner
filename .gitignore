@@ -1,0 +1,4 @@
+/icons
+*.pyc
+token.json
+credentials.json

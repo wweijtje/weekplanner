@@ -1,4 +1,5 @@
 display:
+  output_folder: 'C:\Users\Wout Weijtjens\Documents\00.Privé\Weekplanner'
   resolution:
     - 800
     - 480

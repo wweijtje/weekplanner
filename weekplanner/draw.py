@@ -8,6 +8,37 @@ font_L = ImageFont.truetype(DEFAULT_FONT, size=40)
 font_M = ImageFont.truetype(DEFAULT_FONT, size=30)
 font_S = ImageFont.truetype(DEFAULT_FONT, size=14)
 
+def split_image(original: Image.Image):
+    # Ensure RGB
+    im = original.convert("RGB")
+    width, height = im.size
+
+    white_red = Image.new("RGB", (width, height), "white")
+    white_black = Image.new("RGB", (width, height), "white")
+
+    px = im.load()
+    wr_px = white_red.load()
+    wb_px = white_black.load()
+
+    for y in range(height):
+        for x in range(width):
+            r, g, b = px[x, y]
+
+            # classify
+            if (r, g, b) == (0, 0, 0):            # black
+                wb_px[x, y] = (0, 0, 0)          # keep in white-black
+                wr_px[x, y] = (255, 255, 255)    # ignore in white-red
+
+            elif (r, g, b) == (255, 0, 0):       # red
+                wr_px[x, y] = (255, 0, 0)        # keep in white-red
+                wb_px[x, y] = (255, 255, 255)    # ignore in white-black
+
+            else:                                # white
+                wr_px[x, y] = (255, 255, 255)
+                wb_px[x, y] = (255, 255, 255)
+
+    return white_red, white_black
+
 # --- 1. Define Bayer matrix (8×8 classic) ---
 def bayer_matrix(size=8):
     return np.array([
@@ -37,7 +68,7 @@ def fill_rect_with_pattern(img, xy, tile):
         for x in range(x0, x1, tile.width):
             img.paste(tile, (x, y))
 
-def draw_shaded_rectangle(draw, xy, fill=1, outline=0, shade_color=0, shade_offset=0, shade_width=2):
+def draw_shaded_rectangle(draw, xy, fill=(255,255,255), outline=(0,0,0), shade_color=(0,0,0), shade_offset=0, shade_width=2):
     """
     Draws a rectangle with a shading line underneath it.
 
