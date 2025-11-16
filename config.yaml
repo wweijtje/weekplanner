@@ -1,0 +1,90 @@
+display:
+  resolution:
+    - 800
+    - 480
+  start_of_day: '09:00'
+  end_of_day: '20:00'
+  day_y0: 120
+  day_ye: 450
+  day_width: 110
+  no_days: 7
+  no_days_long_term: 7 # how far will they look forward
+
+weather:
+  latitude: 51.03
+  longitude: 5.7
+
+google:
+  scopes:
+    - 'https://www.googleapis.com/auth/calendar.readonly'
+  agenda:
+    -
+
+days:
+  monday:
+    symbol: moon
+    name: maandag
+    schoolday: full
+  tuesday:
+    symbol: dinosaur
+    name: dinsdag
+    schoolday: full
+  wednesday:
+    symbol: dog
+    name: woensdag
+    schoolday: half
+  thursday:
+    symbol: thunder
+    name: donderdag
+    schoolday: full
+  friday:
+    symbol: friends
+    name: vrijdag
+    schoolday: full
+  saturday:
+    symbol: saw
+    name: zaterdag
+    schoolday: none
+  sunday:
+    symbol: sun
+    name: zondag
+    schoolday: none
+
+events:
+  mama:
+    keywords:
+      - mama
+      - thuis
+    symbol: heart
+    str: mama
+  opa_oma_maaseik:
+    keywords:
+      - opa oma maaseik
+      - oma opa maaseik
+    symbol: car
+    str: Opa en Oma Maaseik
+  jessica:
+    keywords:
+      - jessica
+    symbol: hen
+    str: Jessica
+  opa_oma_stokkem:
+    keywords:
+      - opa oma stokkem
+      - oma opa stokkem
+    symbol: dog
+    str: Opa en Oma Stokkem
+  lien_babysit:
+    keywords:
+      - lien
+      - babysit
+    symbol: bunny
+    str: Lien
+  holiday: # Reserved to flag days off, use keywords to identify
+    keywords:
+      - vrije dag
+      - verlof
+      - vakantie
+    symbol: none
+    str: vakantie
+
