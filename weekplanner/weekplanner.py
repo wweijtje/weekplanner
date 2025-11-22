@@ -1,6 +1,6 @@
 import datetime
 from .config import find_event
-from .draw import draw_shaded_rectangle, get_icon, font_S
+from .draw import draw_shaded_rectangle, get_icon, font_S, bayer_tile_colored
 from .utils import time_to_y
 from pytz import utc
 
@@ -60,7 +60,7 @@ class Event(object):
         print(f'No symbol found for "{self.name}"')
         return 'saw'
 
-    def  draw(self, img, draw_obj, x_0, x_e):
+    def draw(self, img, draw_obj, x_0, x_e):
         """
         Draw an event based on the
         :param x_0:
@@ -151,7 +151,9 @@ class Day(object):
             print(f'Full school day ({DAY_Y0},{y_e_full})')
             draw_shaded_rectangle(
                 draw_obj,
-                (x_0+5, DAY_Y0+10, x_e, y_e_full)
+                (x_0+5, DAY_Y0+10, x_e, y_e_full),
+                pattern=bayer_tile_colored(0.4, color=(255,0,0)),
+                img=img
             )
 
         elif self.school_day == 'half':
@@ -160,11 +162,12 @@ class Day(object):
                 datetime.datetime(2025,11,12,12, tzinfo=utc),
                 config=self._config
             )
-            print(f'half school day ({DAY_Y0},{y_e_half})')
 
             draw_shaded_rectangle(
                 draw_obj,
-                (x_0+5, DAY_Y0+10, x_e, y_e_half)
+                (x_0+5, DAY_Y0+10, x_e, y_e_half),
+                pattern=bayer_tile_colored(0.4, color=(255,0,0)),
+                img=img
             )
         else:
             # Do Nothing
@@ -173,13 +176,32 @@ class Day(object):
         # Add the day symbols
         draw_shaded_rectangle(
             draw_obj,
-            (x_0, y_0-22, x_0 + 70, y_0 + 48)
+            (x_0, y_0-18, x_0 + 36, y_0 + 18)
         )
-        img.paste(get_icon(self.weekday_symbol), (x_0 + 2, y_0-20))
+        img.paste(
+            get_icon(
+                self.weekday_symbol,
+                mode='small'
+            ),
+            (x_0 + 2, y_0-16)
+        )
 
+        # Add the name of the day
+
+        draw_shaded_rectangle(
+            draw_obj,
+            (x_0 + 36, y_0 + 5, x_e, y_0 + 25)
+        )
+        draw_obj.text(
+            (x_e, y_0 + 12),
+            self.date.strftime("%d/%m"),
+            font=font_S,
+            fill=0,
+            anchor='rt'
+        )
         # Add events
         for _e in self.events:
-            _e.draw(x_0=x_0 +5,x_e=x_e, img=img, draw_obj=draw_obj)
+            _e.draw(x_0=x_0 + 5, x_e=x_e, img=img, draw_obj=draw_obj)
 
     @property
     def weekday_symbol(self):

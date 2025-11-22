@@ -2,11 +2,11 @@ import os
 import numpy as np
 from PIL import Image, ImageFont
 
-DEFAULT_FONT = 'verdana'
+DEFAULT_FONT = r"C:\Pycharm\WeekPlanner\weekplanner.git\weekplanner\fonts\PixelOperator.ttf" #TODO see how this works with a local path
 font_XL = ImageFont.truetype(DEFAULT_FONT, size=60)
 font_L = ImageFont.truetype(DEFAULT_FONT, size=40)
-font_M = ImageFont.truetype(DEFAULT_FONT, size=30)
-font_S = ImageFont.truetype(DEFAULT_FONT, size=14)
+font_M = ImageFont.truetype(DEFAULT_FONT, size=32)
+font_S = ImageFont.truetype(DEFAULT_FONT, size=16)
 
 def split_image(original: Image.Image):
     # Ensure RGB
@@ -59,16 +59,47 @@ def bayer_tile(level: float, size=8):
     arr = (m < level).astype(np.uint8) * 255
     return Image.fromarray(arr, mode="L")
 
+
+def bayer_tile_colored(level: float, color, size=8):
+    """
+    Return an RGB Bayer halftone tile.
+    Dots appear where m < level.
+
+    level: float in [0,1]
+    color: (R, G, B) tuple, e.g. (255, 0, 0) for red
+    """
+    m = bayer_matrix(size)
+
+    # mask: 255 where we keep the dot, 0 where background
+    mask = (m < level).astype(np.uint8)  # shape (size, size)
+
+    # background is white
+    bg = np.ones((size, size, 3), dtype=np.uint8) * 255
+
+    # color layer
+    dot = np.zeros((size, size, 3), dtype=np.uint8)
+    dot[:] = color
+
+    # blend: dot where mask == 1, bg where mask == 0
+    out = bg * (1 - mask[..., None]) + dot * mask[..., None]
+
+    return Image.fromarray(out.astype(np.uint8), mode="RGB")
+
 # --- 3. Function to fill a rectangle in an existing image ---
 def fill_rect_with_pattern(img, xy, tile):
     """Fill a rectangular area (x0, y0, x1, y1) with a repeated pattern tile."""
-
     x0, y0, x1, y1 = xy
-    for y in range(y0, y1, tile.height):
-        for x in range(x0, x1, tile.width):
-            img.paste(tile, (x, y))
+    tw, th = tile.width, tile.height
 
-def draw_shaded_rectangle(draw, xy, fill=(255,255,255), outline=(0,0,0), shade_color=(0,0,0), shade_offset=0, shade_width=2):
+    for y in range(y0, y1, th):
+        for x in range(x0, x1, tw):
+            # Determine the region we are allowed to draw into
+            box = (x, y, min(x + tw, x1), min(y + th, y1))
+            # Crop tile if needed
+            tile_part = tile.crop((0, 0, box[2] - x, box[3] - y))
+            img.paste(tile_part, (x, y))
+
+def draw_shaded_rectangle(draw, xy, fill=(255,255,255), outline=(0,0,0), shade_color=(0,0,0), shade_offset=0, shade_width=2, pattern=None,img=None):
     """
     Draws a rectangle with a shading line underneath it.
 
@@ -90,6 +121,12 @@ def draw_shaded_rectangle(draw, xy, fill=(255,255,255), outline=(0,0,0), shade_c
 
     # Draw the rectangle
     draw.rectangle(xy, fill=fill, outline=outline)
+    if pattern is not None:
+        fill_rect_with_pattern(
+            img,
+            xy,
+            pattern
+        )
 
     # Draw a shading line below the rectangle
     x1, y1, x2, y2 = xy
@@ -99,6 +136,14 @@ def draw_shaded_rectangle(draw, xy, fill=(255,255,255), outline=(0,0,0), shade_c
     return draw
 
 def get_icon(name: str, mode = 'normal', category=None):
+    """
+
+
+    :param name:
+    :param mode: 'small' is a 32x32 image, 'normal' is 64x64
+    :param category:
+    :return:
+    """
     # Create a blank white image for 800x480
     if category:
         icon_folder = os.path.join("icons", category)

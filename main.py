@@ -110,20 +110,12 @@ for i in range(NO_DAYS):
         )
     )
 
-
-
-
-
 for _i, d in enumerate(week_list):
     for _e in events:
         if _e in d:
             d.add_event(event=_e)
 
     d.draw(img, draw_obj=draw, idx=_i)
-
-print('Got to the end!')
-
-draw.line((10, 100, RESOLUTION[0] - 10, 100),fill=(255,0,0)) # Horizontal divider
 
 
 img.show()  # or save
