@@ -7,13 +7,14 @@ from pytz import utc
 WEEKDAY_STR = ['monday','tuesday','wednesday','thursday','friday', 'saturday', 'sunday']
 
 class Event(object):
-    def __init__(self, name, dt_start, dt_end, config, symbol=None, holiday=None):
+    def __init__(self, name, dt_start, dt_end, config, symbol=None, holiday=None, agenda=None):
 
         self.name = name
         self.dt_start = dt_start
         self.dt_end = dt_end - datetime.timedelta(milliseconds=1) # Little trick to resolve that a full day spreads out to the next
         self.config = {}
         self._config = config
+        self.agenda = agenda
 
         if holiday is None:
             self.holiday = False

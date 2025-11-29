@@ -14,10 +14,10 @@ def get_timestamp_from_google(date_dict):
     elif 'dateTime' in date_dict:
         return datetime.datetime.fromisoformat(date_dict["dateTime"])
 
-def collect_agenda_data(dt_0, dt_e, config):
+def collect_agenda_data(dt_0, dt_e, config, agenda):
 
     SCOPES = config['scopes']
-    AGENDA = config['agenda'][0]
+
 
     creds = None
     if os.path.exists('token.json'):
@@ -36,7 +36,7 @@ def collect_agenda_data(dt_0, dt_e, config):
     service = build('calendar', 'v3', credentials=creds)
 
     events_result = service.events().list(
-        calendarId=AGENDA, timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
+        calendarId=agenda, timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
         maxResults=20, singleEvents=True, orderBy='startTime'
     ).execute()
     events = events_result.get('items', [])

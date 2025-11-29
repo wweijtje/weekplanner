@@ -24,21 +24,32 @@ RESOLUTION = config['display']['resolution']
 now = datetime.datetime.now(datetime.UTC)
 end_time = now + datetime.timedelta(days=NO_DAYS_LT)
 
-response_events = collect_agenda_data(now, end_time, config['google'])
-
 events = []
-for _e in response_events:
-    # try:
-    events.append(
-        Event(
-            name=_e['summary'],
-            dt_start = get_timestamp_from_google(_e['start']),
-            dt_end = get_timestamp_from_google(_e["end"]),
-            config= config
+
+for _agenda in config['agenda']:
+    try:
+        response_events = collect_agenda_data(
+            now,
+            end_time,
+            config['google'],
+            agenda = _agenda
         )
-    )
-    # except:
-    #     print(_e)
+    except:
+        print(f'Failed to connect to Agenda : {_agenda}')
+    if response_events:
+        for _e in response_events:
+            # try:
+            events.append(
+                Event(
+                    name=_e['summary'],
+                    dt_start = get_timestamp_from_google(_e['start']),
+                    dt_end = get_timestamp_from_google(_e["end"]),
+                    config= config,
+                    agenda= _agenda
+                )
+            )
+            # except:
+            #     print(_e)
 print(f'Found {len(events)} events')
 
 
