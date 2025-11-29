@@ -25,9 +25,6 @@ now = datetime.datetime.now(datetime.UTC)
 end_time = now + datetime.timedelta(days=NO_DAYS_LT)
 
 response_events = collect_agenda_data(now, end_time, config['google'])
-print(response_events[0])
-
-
 
 events = []
 for _e in response_events:
@@ -42,7 +39,6 @@ for _e in response_events:
     )
     # except:
     #     print(_e)
-print(events[0])
 print(f'Found {len(events)} events')
 
 
@@ -56,7 +52,7 @@ draw = ImageDraw.Draw(img)
 # Draw something
 # General
 
-_ = draw_shaded_rectangle(draw, (10, 10, 790, 460))  # Outline
+_ = draw_shaded_rectangle(draw, (5, 5, 795, 465))  # Outline
 
 
 DAY_LENGTH = int(360)  # In pixels
