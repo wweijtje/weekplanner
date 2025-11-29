@@ -75,6 +75,8 @@ class Event(object):
             draw_shaded_rectangle(draw_obj, (x_0, y_0, x_e, y_e))
             if self.symbol not in ["none", '']:
                 img.paste(get_icon(self.symbol, mode='small'), (x_0 + 2, y_0 + 2))
+            if self.agenda['symbol']:
+                img.paste(get_icon(self.agenda['symbol'], mode='small'), (x_e - 34 , y_0 + 2))
 
         draw_obj.text((x_0+10,y_e-10), self.name, font=font_S, fill=0, anchor='lb')
 

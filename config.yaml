@@ -19,7 +19,9 @@ google:
   scopes:
     - 'https://www.googleapis.com/auth/calendar.readonly'
   agenda:
-    -
+    -  id:
+       name: Bas
+       symbol: shark
 
 days:
   monday:

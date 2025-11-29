@@ -26,7 +26,7 @@ end_time = now + datetime.timedelta(days=NO_DAYS_LT)
 
 events = []
 
-for _agenda in config['agenda']:
+for _agenda in config['google']['agenda']:
     try:
         response_events = collect_agenda_data(
             now,
