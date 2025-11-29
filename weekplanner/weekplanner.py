@@ -1,7 +1,7 @@
 import datetime
 from .config import find_event
 from .draw import draw_shaded_rectangle, get_icon, font_S, bayer_tile_colored
-from .utils import time_to_y
+from .utils import time_to_y, draw_text_bottom_right
 from pytz import utc
 
 WEEKDAY_STR = ['monday','tuesday','wednesday','thursday','friday', 'saturday', 'sunday']
@@ -78,7 +78,12 @@ class Event(object):
             if self.agenda['symbol']:
                 img.paste(get_icon(self.agenda['symbol'], mode='small'), (x_e - 34 , y_0 + 2))
 
-        draw_obj.text((x_0+10,y_e-10), self.name, font=font_S, fill=0, anchor='lb')
+        draw_text_bottom_right(
+            draw_obj,
+            self.name,
+            (x_0+ 2, y_0 + 34, x_e-2, y_e-10),
+            font=font_S
+        )
 
     def __str__(self):
         return f"Event {self.name}"
