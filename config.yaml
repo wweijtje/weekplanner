@@ -60,6 +60,11 @@ events:
       - thuis
     symbol: heart
     str: mama
+  papa:
+    keywords:
+      - papa
+    symbol: rocket
+    str: papa
   opa_oma_maaseik:
     keywords:
       - opa oma maaseik
