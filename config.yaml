@@ -67,8 +67,10 @@ events:
     str: papa
   opa_oma_maaseik:
     keywords:
-      - oma maaseik
-      - opa maaseik
+      - oma opa maaseik
+      - opa oma maaseik
+      - oma en opa maaseik
+      - opa en oma maaseik
     symbol: car
     str: Opa en Oma Maaseik
   jessica:
@@ -78,10 +80,18 @@ events:
     str: Jessica
   opa_oma_stokkem:
     keywords:
-      - oma stokkem
-      - opa stokkem
+      - oma opa stokkem
+      - opa oma stokkem
+      - opa en oma stokkem
+      - opa en oma stokkem
     symbol: dog
     str: Opa en Oma Stokkem
+  thomas:
+    keywords:
+      - thomas
+      - thomas en marjolein
+    symbol: mouse
+    str: Thomas
   lien_babysit:
     keywords:
       - lien
