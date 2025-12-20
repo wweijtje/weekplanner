@@ -78,12 +78,12 @@ class Event(object):
             if self.agenda['symbol']:
                 img.paste(get_icon(self.agenda['symbol'], mode='small'), (x_e - 34 , y_0 + 2))
 
-        draw_text_bottom_right(
-            draw_obj,
-            self.name,
-            (x_0+ 2, y_0 + 34, x_e-2, y_e-10),
-            font=font_S
-        )
+            draw_text_bottom_right(
+                draw_obj,
+                self.name,
+                (x_0+ 2, y_0 + 34, x_e-2, y_e-10),
+                font=font_S
+            )
 
     def __str__(self):
         return f"Event {self.name}"
@@ -181,35 +181,38 @@ class Day(object):
             # Do Nothing
             pass
 
+
+        # Add events
+        for _e in self.events:
+            _e.draw(x_0=x_0 + 5, x_e=x_e, img=img, draw_obj=draw_obj)
+
+        # Add the name of the day
+
+        draw_shaded_rectangle(
+            draw_obj,
+            (x_0 + 36, y_0 - 8, x_e, y_0 + 12)
+        )
+        draw_obj.text(
+            (x_e, y_0 + 10 ),
+            self.date.strftime("%d/%m"),
+            font=font_S,
+            fill=0,
+            anchor='rb'
+        )
         # Add the day symbols
         draw_shaded_rectangle(
             draw_obj,
-            (x_0, y_0-18, x_0 + 36, y_0 + 18)
+            (x_0, y_0 - 24, x_0 + 36, y_0 + 12)
         )
         img.paste(
             get_icon(
                 self.weekday_symbol,
                 mode='small'
             ),
-            (x_0 + 2, y_0-16)
+            (x_0 + 2, y_0 - 22)
         )
 
-        # Add the name of the day
 
-        draw_shaded_rectangle(
-            draw_obj,
-            (x_0 + 36, y_0 + 5, x_e, y_0 + 25)
-        )
-        draw_obj.text(
-            (x_e, y_0 + 12),
-            self.date.strftime("%d/%m"),
-            font=font_S,
-            fill=0,
-            anchor='rt'
-        )
-        # Add events
-        for _e in self.events:
-            _e.draw(x_0=x_0 + 5, x_e=x_e, img=img, draw_obj=draw_obj)
 
     @property
     def weekday_symbol(self):
