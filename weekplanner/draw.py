@@ -1,12 +1,20 @@
 import os
+from pathlib import Path
 import numpy as np
 from PIL import Image, ImageFont
 
-DEFAULT_FONT = r"C:\Pycharm\WeekPlanner\weekplanner.git\weekplanner\fonts\PixelOperator.ttf" #TODO see how this works with a local path
-font_XL = ImageFont.truetype(DEFAULT_FONT, size=60)
-font_L = ImageFont.truetype(DEFAULT_FONT, size=40)
-font_M = ImageFont.truetype(DEFAULT_FONT, size=32)
-font_S = ImageFont.truetype(DEFAULT_FONT, size=16)
+
+SCRIPT_LOCATION = Path(__file__).resolve()
+PROJECT_ROOT = SCRIPT_LOCATION.parent.parent
+FONTS_DIR = PROJECT_ROOT / "fonts"
+
+DEFAULT_FONT_PATH = FONTS_DIR / "PixelOperator.ttf"
+COMIC_FONT_PATH = FONTS_DIR / "ComicaBD-Regular.ttf"
+
+font_XL = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=60)
+font_L = ImageFont.truetype(str(COMIC_FONT_PATH), size=50)
+font_M = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=32)
+font_S = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=16)
 
 def split_image(original: Image.Image):
     # Ensure RGB
