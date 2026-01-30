@@ -2,3 +2,4 @@
 *.pyc
 token.json
 credentials.json
+/fonts/
