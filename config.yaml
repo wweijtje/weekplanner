@@ -98,6 +98,23 @@ events:
       - babysit
     symbol: bunny
     str: Lien
+  dokter:
+    keywords:
+      - dokter
+    symbol: stethoscope
+    str: Dokter
+  uiteten:
+    keywords:
+      - ontbijt
+      - lunch
+      - diner
+    symbol: eating
+    str: Uit eten
+  kapper:
+    keywords:
+      - kapper
+    symbol: scissors
+    str: Kapper
   holiday: # Reserved to flag days off, use keywords to identify
     keywords:
       - vrije dag
