@@ -1,8 +1,14 @@
 import os
 from datetime import datetime, time
-from PIL import Image
-import numpy as np
+
 import textwrap
+
+def get_icon_list(folder=r'./icons'):
+    """
+    Returns a list of all possible icons
+    :return:
+    """
+    return os.listdir(folder)
 
 
 def draw_text_bottom_right(draw, text, box, font, fill=(0, 0, 0), spacing=2, ellipsis="…"):
