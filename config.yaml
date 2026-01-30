@@ -1,5 +1,5 @@
 display:
-  output_folder: 'C:\Users\Wout Weijtjens\Documents\00.Privé\Weekplanner'
+  output_folder: '/home/wout/e-Paper/RaspberryPi_JetsonNano/python/pic'
   resolution:
     - 800
     - 480
