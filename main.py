@@ -127,5 +127,10 @@ for _i, d in enumerate(week_list):
 if TEST_MODE:
     img.show()  # or save
 img_red, img_black = split_image(img)
+
+# Dithering to improve the visuals
+img_black = img_black.convert('1')
+img_red = img_red.convert('1')
+# -Remove this /\ should the font ComicaBD-Regular
 img_black.save(os.path.join(config['display']['output_folder'],"display.bmp"))
 img_red.save(os.path.join(config['display']['output_folder'],"display_r.bmp"))
