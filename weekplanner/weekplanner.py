@@ -73,10 +73,22 @@ class Event(object):
             print(f'{self.name}: Not drawing full day event')
         else:
             draw_shaded_rectangle(draw_obj, (x_0, y_0, x_e, y_e))
+
+            y_symbols = y_0 + 2
+            #% Additional logic to have the symbols not cut in half at the beginning of the day
+            _y_start = self._config['display']['day_y0']
+            _y_end = self._config['display']['day_ye']
+            print(f'{self}:{_y_start}-{y_0}')
+            if y_symbols < (_y_start+20):
+                # The event starts before the end of the day.
+                if y_e > _y_start:
+                    # Place the symbol just after the start of the day
+                    y_symbols = _y_start + 20
+            # End of resolving the y_position of the symbols
             if self.symbol not in ["none", '']:
-                img.paste(get_icon(self.symbol, mode='small'), (x_0 + 2, y_0 + 2))
+                img.paste(get_icon(self.symbol, mode='small'), (x_0 + 2, y_symbols))
             if self.agenda['symbol']:
-                img.paste(get_icon(self.agenda['symbol'], mode='small'), (x_e - 34 , y_0 + 2))
+                img.paste(get_icon(self.agenda['symbol'], mode='small'), (x_e - 34 , y_symbols))
 
             draw_text_bottom_right(
                 draw_obj,
@@ -190,7 +202,7 @@ class Day(object):
 
         draw_shaded_rectangle(
             draw_obj,
-            (x_0 + 36, y_0 - 8, x_e, y_0 + 12)
+            (x_0+4, y_0 - 8, x_e, y_0 + 12)
         )
         draw_obj.text(
             (x_e, y_0 + 10 ),
@@ -202,14 +214,14 @@ class Day(object):
         # Add the day symbols
         draw_shaded_rectangle(
             draw_obj,
-            (x_0, y_0 - 24, x_0 + 36, y_0 + 12)
+            (x_0, y_0 - 32, x_0 + 36, y_0 + 4)
         )
         img.paste(
             get_icon(
                 self.weekday_symbol,
                 mode='small'
             ),
-            (x_0 + 2, y_0 - 22)
+            (x_0 + 2, y_0 - 30)
         )
 
 
