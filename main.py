@@ -9,7 +9,7 @@ from weekplanner.google import collect_agenda_data, get_timestamp_from_google
 from weekplanner.weather_api import get_weather_openmeteo, get_weather_icon
 from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L, split_image
 
-TEST_MODE = True
+TEST_MODE = False
 #%% Open the configuration
 
 with open("config.yaml", encoding="utf-8") as stream:
