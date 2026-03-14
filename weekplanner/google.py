@@ -36,8 +36,10 @@ def collect_agenda_data(dt_0, dt_e, config, agenda):
 
     service = build('calendar', 'v3', credentials=creds)
 
+    calendar_id = os.environ.get(agenda['id']) # Collect from env variable
+
     events_result = service.events().list(
-        calendarId=agenda['id'], timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
+        calendarId=calendar_id,timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
         maxResults=20, singleEvents=True, orderBy='startTime'
     ).execute()
     events = events_result.get('items', [])
