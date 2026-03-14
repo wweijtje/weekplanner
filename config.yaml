@@ -19,9 +19,12 @@ google:
   scopes:
     - 'https://www.googleapis.com/auth/calendar.readonly'
   agenda:
-    -  id:
+    -  id: GOOGLE_AGENDA_BAS #Environmental variable with the ID in it
        name: Bas
        symbol: shark
+
+mistral:
+  token:
 
 days:
   monday:
@@ -73,6 +76,11 @@ events:
       - opa en oma maaseik
     symbol: car
     str: Opa en Oma Maaseik
+  feest:
+    keywords:
+      - feest
+    symbol: confetti
+    str: Feest
   jessica:
     keywords:
       - jessica
@@ -98,6 +106,12 @@ events:
       - babysit
     symbol: bunny
     str: Lien
+  tandarts:
+    keywords:
+      - tand
+      - tandarts
+    symbol: tooth
+    str: Tandarts
   dokter:
     keywords:
       - dokter
@@ -115,6 +129,12 @@ events:
       - kapper
     symbol: scissors
     str: Kapper
+  speeltuin:
+    keywords:
+      - spelen
+      - speeltuin
+    symbol: playground
+    str: Speeltuin
   holiday: # Reserved to flag days off, use keywords to identify
     keywords:
       - vrije dag
