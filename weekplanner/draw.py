@@ -12,7 +12,7 @@ DEFAULT_FONT_PATH = FONTS_DIR / "PixelOperator.ttf"
 COMIC_FONT_PATH = FONTS_DIR / "ComicaBD-Regular.ttf"
 
 font_XL = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=60)
-font_L = ImageFont.truetype(str(COMIC_FONT_PATH), size=70)
+font_L = ImageFont.truetype(str(COMIC_FONT_PATH), size=80)
 font_M = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=32)
 font_S = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=16)
 
