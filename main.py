@@ -10,6 +10,8 @@ from weekplanner.weather_api import get_weather_openmeteo, get_weather_icon
 from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L, split_image
 
 TEST_MODE = False
+from time import sleep
+sleep(10)
 #%% Open the configuration
 
 with open("config.yaml", encoding="utf-8") as stream:
