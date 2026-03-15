@@ -96,7 +96,7 @@ if weather_data:
 
 # Date block
 dt = datetime.date.today()
-draw.text((15, 20), f"{dt.strftime('%d/%m/%y')}", font=font_L, fill=0, anchor='lt')
+draw.text((15, 15), f"{dt.strftime('%d/%m/%y')}", font=font_L, fill=0, anchor='lt')
 
 """draw.rounded_rectangle(
     (100, 100, 300, 200),  # (x0, y0, x1, y1)
