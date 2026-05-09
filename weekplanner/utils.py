@@ -1,7 +1,34 @@
 import os
+import socket
+from time import sleep
 from datetime import datetime, time
-
 import textwrap
+
+
+def wait_for_internet(host="8.8.8.8", port=53, timeout=3, max_retries=30):
+    """
+    Waits for internet connectivity.
+    :param host: Host to test (Google DNS is a solid choice)
+    :param port: Port to test (53 is DNS)
+    :param timeout: Seconds to wait for a response
+    :param max_retries: Total seconds/attempts to wait before giving up
+    """
+    print("Checking internet connection...")
+    for i in range(max_retries):
+        try:
+            # Try to resolve the host and connect
+            socket.setdefaulttimeout(timeout)
+            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+            print("Internet connection established!")
+            return True
+        except (socket.error, OSError):
+            print(f"Waiting for internet... ({i + 1}/{max_retries})")
+            sleep(1)
+
+    print("Reached max retries. Proceeding without internet.")
+    return False
+
+
 
 def get_icon_list(folder=r'./icons'):
     """

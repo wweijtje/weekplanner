@@ -50,6 +50,6 @@ def collect_agenda_data(dt_0, dt_e, config, agenda):
     if not events:
         print('No upcoming events found.')
     for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
+        _ = event['start'].get('dateTime', event['start'].get('date'))
 
     return events

@@ -133,7 +133,6 @@ class Day(object):
         self._school_day = value
 
     def add_event(self, event: Event):
-        print(f'{event.name}: is {event.holiday} een vakantie')
         if event.holiday:
 
             self.school_day = 'none'
@@ -162,7 +161,6 @@ class Day(object):
             (x_0, y_0, x_e, y_e),
             bayer_tile(0.9)
         )
-        print(f'Dit is een {self.school_day} schooldag')
         if self.school_day == 'full':
             y_e_full = time_to_y(
                 datetime.datetime(2025,11,15,15, tzinfo=utc),
@@ -205,7 +203,7 @@ class Day(object):
             (x_0+4, y_0 - 8, x_e, y_0 + 12)
         )
         draw_obj.text(
-            (x_e, y_0 + 10 ),
+            (x_e, y_0 + 8 ),
             self.date.strftime("%d/%m"),
             font=font_S,
             fill=0,
