@@ -5,29 +5,24 @@ from datetime import datetime, time
 import textwrap
 
 
-def wait_for_internet(host="8.8.8.8", port=53, timeout=3, max_retries=30):
-    """
-    Waits for internet connectivity.
-    :param host: Host to test (Google DNS is a solid choice)
-    :param port: Port to test (53 is DNS)
-    :param timeout: Seconds to wait for a response
-    :param max_retries: Total seconds/attempts to wait before giving up
-    """
-    print("Checking internet connection...")
+def wait_for_internet(target_host="google.com", max_retries=30):
+    print("Waiting for DNS and Network...")
     for i in range(max_retries):
         try:
-            # Try to resolve the host and connect
-            socket.setdefaulttimeout(timeout)
-            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
-            print("Internet connection established!")
+            # This will FAIL with gaierror until DNS is ready
+            socket.gethostbyname(target_host)
+            print("DNS is up! Internet is fully ready.")
             return True
-        except (socket.error, OSError):
-            print(f"Waiting for internet... ({i + 1}/{max_retries})")
-            sleep(1)
+        except socket.gaierror:
+            # This catches the 'Temporary failure in name resolution'
+            print(f"Network up, but DNS still starting... ({i + 1}/{max_retries})")
+            time.sleep(1)
+        except Exception as e:
+            print(f"Waiting... {e}")
+            time.sleep(1)
 
-    print("Reached max retries. Proceeding without internet.")
+    print("Moving forward without full DNS resolution.")
     return False
-
 
 
 def get_icon_list(folder=r'./icons'):
