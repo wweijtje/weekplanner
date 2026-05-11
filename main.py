@@ -1,5 +1,6 @@
 import datetime
 import os
+import traceback
 
 from PIL import Image, ImageDraw, ImageFont
 import yaml
@@ -8,29 +9,42 @@ from weekplanner.utils import wait_for_internet
 from weekplanner.weekplanner import Event, Day
 from weekplanner.google import collect_agenda_data, get_timestamp_from_google
 from weekplanner.weather_api import get_weather_openmeteo, get_weather_icon
-from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L, split_image
+from weekplanner.draw import get_icon, draw_shaded_rectangle, font_M, font_XL, font_L, split_image, font_S
 
+now = datetime.datetime.now(datetime.UTC)
+
+print(f'----Weekplanner started at: {now}-----')
+
+all_errors = []
 TEST_MODE = False
 #%% Open the configuration
+RESOLUTION = [800, 480] # Default resolution
 
 with open("config.yaml", encoding="utf-8") as stream:
     try:
         config  = yaml.safe_load(stream)
+        NO_DAYS = config['display']['no_days']
+        NO_DAYS_LT = config['display']['no_days_long_term']
+        RESOLUTION = config['display']['resolution']
     except yaml.YAMLError as exc:
-        print(exc)
+        error_stack = traceback.format_exc()
+        error_str = f'Failed to load configuration: {error_stack}'
+        all_errors.append(error_str)
+        print(error_str)
 
-NO_DAYS = config['display']['no_days']
-NO_DAYS_LT = config['display']['no_days_long_term']
-RESOLUTION = config['display']['resolution']
 
-now = datetime.datetime.now(datetime.UTC)
-end_time = now + datetime.timedelta(days=NO_DAYS_LT)
+
+
+#%% Initiate the drawing
+img = Image.new("RGB", RESOLUTION,
+                (255, 255, 255))  # "1" = 1-bit pixels, 1 = white
+
+draw = ImageDraw.Draw(img)
 
 #%% Wait for internet
 connected = wait_for_internet()
-
-
 if connected:
+    end_time = now + datetime.timedelta(days=NO_DAYS_LT)
 
     #%%
 
@@ -46,7 +60,11 @@ if connected:
                 agenda = _agenda
             )
         except Exception as e:
-            print(f'Failed to connect to Agenda : {_agenda} : {e}')
+            error_stack = traceback.format_exc()
+            error_str = f'Failed to connect to Agenda : {_agenda} : {error_stack}'
+            all_errors.append(error_str)
+            print(error_str)
+
         if response_events:
             for _e in response_events:
                 # try:
@@ -62,12 +80,6 @@ if connected:
                 # except:
                 #     print(_e)
     print(f'Found {len(events)} events')
-
-    img = Image.new("RGB", RESOLUTION, (255,255,255))  # "1" = 1-bit pixels, 1 = white
-
-
-    draw = ImageDraw.Draw(img)
-
 
     # Draw something
     # General
@@ -133,18 +145,33 @@ if connected:
                 d.add_event(event=_e)
 
         d.draw(img, draw_obj=draw, idx=_i)
-
-
-    if TEST_MODE:
-        img.show()  # or save
-    else:
-        img_red, img_black = split_image(img)
-
-        # Dithering to improve the visuals
-        img_black = img_black.convert('1')
-        img_red = img_red.convert('1')
-        img_black.save(os.path.join(config['display']['output_folder'],"display.bmp"))
-        img_red.save(os.path.join(config['display']['output_folder'],"display_r.bmp"))
-
 else:
-    print('No internet during attempt')
+    error_str = 'No internet during attempt'
+    all_errors.append(error_str)
+    print(error_str)
+
+
+# %% Show errors on screen
+if all_errors:
+    bg_coords = [10, 5, 780, 200]
+
+    # Draw the white background rectangle
+    draw.rectangle(bg_coords, fill="white")
+    # Print the errors
+    draw.text(
+        (15, 10),
+        all_errors[0],
+        font=font_S,
+        fill=0
+    )
+
+#%%
+if TEST_MODE:
+    img.show()  # or save
+else:
+    img_red, img_black = split_image(img)
+    # Dithering to improve the visuals
+    img_black = img_black.convert('1')
+    img_red = img_red.convert('1')
+    img_black.save(os.path.join(config['display']['output_folder'],"display.bmp"))
+    img_red.save(os.path.join(config['display']['output_folder'],"display_r.bmp"))
