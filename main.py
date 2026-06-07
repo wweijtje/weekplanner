@@ -62,8 +62,9 @@ if connected:
         except Exception as e:
             error_stack = traceback.format_exc()
             error_str = f'Failed to connect to Agenda : {_agenda} : {error_stack}'
-            all_errors.append(error_str)
             print(error_str)
+            all_errors.append(error_str)
+
 
         if response_events:
             for _e in response_events:
@@ -115,11 +116,11 @@ if connected:
 
         draw.text((770, 15), f"{str(temp_max)}°C", font=font_XL, fill=0, anchor='rt')
         draw.text((770, 80), f"{str(temp_min)}°C", font=font_M, fill=0, anchor='rb')
-        img.paste(get_icon(weather_icon, category="weather"), (500, 20))
+        img.paste(get_icon(weather_icon, category="weather"), (550, 10))
 
     # Date block
     dt = datetime.date.today()
-    draw.text((15, 10), f"{dt.strftime('%d/%m/%y')}", font=font_L, fill=0, anchor='lt')
+    draw.text((15, 10), f"{dt.strftime('%d/%m')}", font=font_L, fill=0, anchor='lt')
 
     """draw.rounded_rectangle(
         (100, 100, 300, 200),  # (x0, y0, x1, y1)
