@@ -9,10 +9,10 @@ PROJECT_ROOT = SCRIPT_LOCATION.parent.parent
 FONTS_DIR = PROJECT_ROOT / "fonts"
 
 DEFAULT_FONT_PATH = FONTS_DIR / "PixelOperator.ttf"
-COMIC_FONT_PATH = FONTS_DIR / "BALLOON DREAMS.ttf"
+COMIC_FONT_PATH = FONTS_DIR / "ComicaBD-Regular.ttf"
 
-font_XL = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=60)
-font_L = ImageFont.truetype(str(COMIC_FONT_PATH), size=60)
+font_XL = ImageFont.truetype(str(COMIC_FONT_PATH), size=96)
+font_L = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=60)
 font_M = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=32)
 font_S = ImageFont.truetype(str(DEFAULT_FONT_PATH), size=16)
 

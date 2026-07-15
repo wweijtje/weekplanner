@@ -16,10 +16,10 @@ def wait_for_internet(target_host="google.com", max_retries=30):
         except socket.gaierror:
             # This catches the 'Temporary failure in name resolution'
             print(f"Network up, but DNS still starting... ({i + 1}/{max_retries})")
-            time.sleep(1)
+            sleep(1)
         except Exception as e:
             print(f"Waiting... {e}")
-            time.sleep(1)
+            sleep(1)
 
     print("Moving forward without full DNS resolution.")
     return False

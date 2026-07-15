@@ -114,13 +114,13 @@ if connected:
         weather_code = weather_data['daily']['weather_code'][0]
         weather_icon = get_weather_icon(weather_code)
 
-        draw.text((770, 15), f"{str(temp_max)}°C", font=font_XL, fill=0, anchor='rt')
+        draw.text((770, 15), f"{str(temp_max)}°C", font=font_L, fill=0, anchor='rt')
         draw.text((770, 80), f"{str(temp_min)}°C", font=font_M, fill=0, anchor='rb')
-        img.paste(get_icon(weather_icon, category="weather"), (550, 10))
+        img.paste(get_icon(weather_icon, category="weather"), (550, 20))
 
     # Date block
     dt = datetime.date.today()
-    draw.text((15, 10), f"{dt.strftime('%d/%m')}", font=font_L, fill=0, anchor='lt')
+    draw.text((25, 10), f"{dt.strftime('%d/%m')}", font=font_XL, fill=0, anchor='lt')
 
     """draw.rounded_rectangle(
         (100, 100, 300, 200),  # (x0, y0, x1, y1)
