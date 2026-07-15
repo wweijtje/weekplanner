@@ -42,7 +42,7 @@ def collect_agenda_data(dt_0, dt_e, config, agenda):
         raise ValueError(f'Environmental variable "{calendar_id}" not found.')
 
     events_result = service.events().list(
-        calendarId=calendar_id,timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
+        calendarId=calendar_id, timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
         maxResults=20, singleEvents=True, orderBy='startTime'
     ).execute()
     events = events_result.get('items', [])

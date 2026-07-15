@@ -4,7 +4,7 @@ display:
     - 800
     - 480
   start_of_day: '09:00'
-  end_of_day: '20:00'
+  end_of_day: '22:00'
   day_y0: 120
   day_ye: 450
   day_width: 110
@@ -94,6 +94,17 @@ events:
       - opa en oma stokkem
     symbol: dog
     str: Opa en Oma Stokkem
+  annalia:
+    keywords:
+      - anna-lia
+      - annalia
+    symbol: hippo
+    str: Anna-Lia
+  cas:
+    keywords:
+      - cas
+    symbol: parrot
+    str: Cas
   thomas:
     keywords:
       - thomas
