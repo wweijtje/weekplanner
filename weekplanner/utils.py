@@ -1,9 +1,20 @@
 import os
+import json
 import socket
 from time import sleep
 from datetime import datetime, time
 import textwrap
 
+def format_cache_timestamp(timestamp_iso):
+    print(f'Formatting cache timestamp: {timestamp_iso}')
+    if not timestamp_iso:
+        return "unknown"
+
+    try:
+        dt = datetime.fromisoformat(timestamp_iso)
+        return dt.strftime("%d/%m %H:%M")
+    except Exception:
+        return "parsing error"
 
 def wait_for_internet(target_host="google.com", max_retries=30):
     print("Waiting for DNS and Network...")
@@ -133,4 +144,26 @@ def all_event_keywords(config, category="events"):
         all_keywords += ''.join(_c['keywords'])
     all_keywords = all_keywords.lower().replace(' ','')
     return all_keywords
+
+
+def load_events_cache(cache_path):
+    if not os.path.exists(cache_path):
+        return {}
+
+    with open(cache_path, "r", encoding="utf-8") as cache_file:
+        data = json.load(cache_file)
+
+    if not isinstance(data, dict):
+        raise ValueError("Google cache file has an invalid format.")
+
+    return data
+
+
+def save_events_cache(cache_path, cache_data):
+    with open(cache_path, "w", encoding="utf-8") as cache_file:
+        json.dump(cache_data, cache_file, ensure_ascii=False, indent=2)
+
+
+def get_cache_path(config):
+    return config["google"].get("cache_file", "google_events_cache.json")
 
