@@ -10,7 +10,7 @@ display:
   day_ye: 450
   day_width: 110
   no_days: 7
-  no_days_long_term: 7 # how far will they look forward
+  no_days_long_term: 30 # how far will they look forward
 
 weather:
   latitude: 51.03

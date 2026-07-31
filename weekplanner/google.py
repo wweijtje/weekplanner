@@ -80,7 +80,7 @@ def collect_agenda_data(dt_0, dt_e, config, agenda):
 
     events_result = service.events().list(
         calendarId=calendar_id, timeMin=dt_0.isoformat(), timeMax=dt_e.isoformat(),
-        maxResults=20, singleEvents=True, orderBy='startTime'
+        maxResults=30, singleEvents=True, orderBy='startTime'
     ).execute()
     events = events_result.get('items', [])
 
