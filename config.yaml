@@ -1,5 +1,6 @@
 display:
-  output_folder: 'C:\Pycharm\WeekPlanner\weekplanner'
+  # output_folder: 'C:\Pycharm\WeekPlanner\weekplanner'
+  output_folder: '/home/wout/e-Paper/RaspberryPi_JetsonNano/python/pic'
   resolution:
     - 800
     - 480
