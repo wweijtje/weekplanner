@@ -44,7 +44,7 @@ img = Image.new("RGB", RESOLUTION,
 draw = ImageDraw.Draw(img)
 
 #%% Wait for internet
-connected = wait_for_internet()
+connected = wait_for_internet(max_retries=10)
 cache_path = get_cache_path(config)
 end_time = now + datetime.timedelta(days=NO_DAYS_LT)
 
